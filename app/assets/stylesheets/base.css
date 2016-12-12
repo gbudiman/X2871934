@@ -1,0 +1,7 @@
+.navbar-inverse-no-radius {
+  border-radius: 0;
+}
+
+.navbar-nav li a.link-is-current-page {
+  color: #ffffff;
+}
