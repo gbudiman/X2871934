@@ -26,9 +26,18 @@ function fetch_queryset() {
   var attach_step2_click = function() {
     return new Promise(
       function(resolve, reject) {
-        $('[data-queryset-id').each(function() {
+        $('[data-queryset-id]').each(function() {
           $(this).on('click', function() {
-            console.log($(this).attr('data-queryset-id'));
+            
+            var that = $(this);
+
+            if (that.hasClass('step2-selected')) {
+              // ignore
+            } else {
+              $('.step2-selected[data-queryset-id]').removeClass('step2-selected');
+              that.addClass('step2-selected');
+              console.log($(this).attr('data-queryset-id'));
+            }
           })
         })
 

@@ -48,3 +48,11 @@ ul.list-height-limited {
 .img-padded:hover {
   background-color: #aabbff;
 }
+
+.step2-selected, .step2-selected:hover {
+  background-color: #3838ff;
+}
+
+.step2-selected {
+  cursor: default;
+}
