@@ -11,7 +11,6 @@ function set_queryset(state) {
           width: $('#step2').attr('data-compressed')
         }, 400, function() {
           var offset = $('.step2-selected').offset().top;
-          console.log('Set scroll to ' + offset);
           $('#step2').animate({
             scrollTop: $('#step2').scrollTop() + offset - 72
           })
@@ -26,7 +25,6 @@ function set_queryset(state) {
         }, 400, function() {
           if ($('.step2-selected').offset() == undefined) { return; }
           var offset = $('.step2-selected').offset().top;
-          console.log('Reset scroll to ' + offset);
           $('#step2').animate({
             scrollTop: $('#step2').scrollTop() + offset - 72
           })
@@ -60,6 +58,25 @@ function fetch_retrieveset() {
     );
   }
 
+  var attach_step3_click = function() {
+    return new Promise(
+      function(resolve, reject) {
+        $('[data-retrieveset-id]').each(function() {
+          $(this).on('click', function() {
+            var that = $(this);
+
+            if (that.hasClass('step3-selected')) {
+
+            } else {
+              $('.step3-selected[data-retrieveset-id]').removeClass('step3-selected');
+              that.addClass('step3-selected');
+            }
+          })
+        })
+      }
+    )
+  }
+
   set_queryset('set');
   $('#step3').show();
   $('#step3-loading').show();
@@ -70,6 +87,7 @@ function fetch_retrieveset() {
     render_step3(data).then(function() {
       $('#step3-loading').hide();
       maximize_height($('#step3'), 16);
+      attach_step3_click();
     });
   })
 }

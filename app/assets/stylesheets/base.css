@@ -49,11 +49,11 @@ ul.list-height-limited {
   background-color: #aabbff;
 }
 
-.step2-selected, .step2-selected:hover {
+.step2-selected, .step2-selected:hover, .step3-selected, .step3-selected:hover {
   background-color: #3838ff;
 }
 
-.step2-selected {
+.step2-selected, .step3-selected {
   cursor: default;
 }
 

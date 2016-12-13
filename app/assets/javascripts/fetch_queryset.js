@@ -62,6 +62,10 @@ function fetch_queryset() {
 
   $('#step2-placeholder').hide();
   $('#step2-loading').show();
+  $('#step2-selected').removeClass('step2-selected');
+  $('#step2 [data-queryset-id]').remove();
+  $('#step3 [data-retrieveset-id]').remove();
+  
   $.get({
     url: '/fetch/queryset'
   }).done(function(data) {
