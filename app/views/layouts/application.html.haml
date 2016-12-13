@@ -16,7 +16,6 @@
           %a{class: 'navbar-brand', href: '#'}= ApplicationController.title
           %ul{class: 'nav navbar-nav'}
             - contextualize link: '/', title: 'Layout Demo'
-            - contextualize link: '/blah', title: 'Layout Demo 2'
     = yield
 
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'

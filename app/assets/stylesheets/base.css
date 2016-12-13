@@ -5,3 +5,22 @@
 .navbar-nav li a.link-is-current-page {
   color: #ffffff;
 }
+
+.list-header {
+  font-weight: bold;
+  font-size: 125%;
+}
+
+li.list-entry {
+  font-weight: normal;
+  font-size: 14px;
+}
+
+ul.list-height-limited {
+  max-height: 128px;
+  overflow-y: auto;
+}
+
+.fetching {
+  text-align: center;
+}
