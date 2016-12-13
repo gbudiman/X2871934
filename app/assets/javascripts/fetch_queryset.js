@@ -13,8 +13,8 @@ function fetch_queryset() {
                               .attr('alt', name)
                               .attr('src', 'photo_placeholder.jpg')
                               .addClass('img-rounded')
-                              .attr('width', 128)
-                              .attr('height', 128));
+                              .attr('width', 120)
+                              .attr('height', 160));
 
           $('#step2').append(s);
         })
@@ -46,7 +46,6 @@ function fetch_queryset() {
               $('.step2-selected[data-queryset-id]').removeClass('step2-selected');
               that.addClass('step2-selected');
               fetch_retrieveset();
-              console.log($(this).attr('data-queryset-id'));
             }
           })
         })
@@ -65,7 +64,7 @@ function fetch_queryset() {
   $('#step2-selected').removeClass('step2-selected');
   $('#step2 [data-queryset-id]').remove();
   $('#step3 [data-retrieveset-id]').remove();
-  
+
   $.get({
     url: '/fetch/queryset'
   }).done(function(data) {

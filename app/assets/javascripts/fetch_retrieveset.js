@@ -47,8 +47,8 @@ function fetch_retrieveset() {
                               .attr('alt', name)
                               .attr('src', 'photo_placeholder.jpg')
                               .addClass('img-rounded')
-                              .attr('width', 128)
-                              .attr('height', 128));
+                              .attr('width', 120)
+                              .attr('height', 160));
 
           $('#step3').append(s);
         })
@@ -80,6 +80,7 @@ function fetch_retrieveset() {
   set_queryset('set');
   $('#step3').show();
   $('#step3-loading').show();
+  $('#step3 [data-retrieveset-id').remove();
   
   $.get({
     url: '/fetch/retrieveset'
