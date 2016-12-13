@@ -49,14 +49,22 @@ ul.list-height-limited {
   background-color: #aabbff;
 }
 
-.step2-selected, .step2-selected:hover, .step3-selected, .step3-selected:hover {
+.step2-selected, .step2-selected:hover {
   background-color: #3838ff;
 }
 
-.step2-selected, .step3-selected {
+.step2-selected {
   cursor: default;
 }
 
 .boxed {
   border-radius: 0.5em;
+}
+
+.img-thumb {
+  display: inline-block;
+  background-position: center center;
+  background-size: cover;
+  width: 120px;
+  height: 160px;
 }

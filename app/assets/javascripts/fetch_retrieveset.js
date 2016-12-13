@@ -51,12 +51,10 @@ function fetch_retrieveset(_infinite_scroll) {
                     .addClass('col-xs-12 col-sm-6 col-md-4 col-lg-2')
                     .addClass('img-padded')
                     .attr('data-retrieveset-id', name)
-                    .append($('<img></img')
-                              .attr('alt', name)
-                              .attr('src', 'photo_placeholder.jpg')
-                              .addClass('img-rounded')
-                              .attr('width', 120)
-                              .attr('height', 160));
+                    .attr('data-full-res', 'photo_placeholder.jpg')
+                    .append($('<div></div>')
+                              .addClass('img-thumb')
+                              .css('background-image', 'url("/photo_placeholder.jpg"'))
 
           $('#step3').append(s);
         })
@@ -65,6 +63,13 @@ function fetch_retrieveset(_infinite_scroll) {
         $('#step3')
           .append($('#step3-loading'))
           .append($('#step3-end'));
+
+        $('[data-retrieveset-id').each(function() {
+          var that = $(this);
+          $(this).zoom({
+            url: that.attr('data-full-res')
+          })
+        })
         resolve();
       }
     );
@@ -121,7 +126,7 @@ function fetch_retrieveset(_infinite_scroll) {
       result_position = data.position;
       result_segment = data.segment;
       maximize_height($('#step3'), 16);
-      attach_step3_click();
+      //attach_step3_click();
       has_ajax_sent = false;
     });
   })

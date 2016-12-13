@@ -17,16 +17,20 @@ function fetch_queryset() {
                     .addClass('img-padded')
                     .attr('data-queryset-id', name)
                     .attr('data-content', 'blabla')
-                    .append($('<img></img>')
-                              .attr('alt', name)
-                              .attr('src', 'photo_placeholder.jpg')
-                              .addClass('img-rounded')
-                              .attr('width', 120)
-                              .attr('height', 160));
+                    .attr('data-full-res', 'photo_placeholder.jpg')
+                    .append($('<div></div>')
+                              .addClass('img-thumb')
+                              .css('background-image', 'url("/photo_placeholder.jpg")'));
 
           $('#step2').append(s);
         })
 
+        $('[data-queryset-id]').each(function() {
+          var that = $(this);
+          that.zoom({
+            url: that.attr('data-full-res')
+          })
+        })
         resolve();
       }
     );
