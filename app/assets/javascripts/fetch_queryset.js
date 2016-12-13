@@ -28,13 +28,14 @@ function fetch_queryset() {
     return new Promise(
       function(resolve, reject) {
         $('[data-queryset-id]').each(function() {
-          $(this).popover({
-            trigger: 'hover',
-            placement: 'auto right',
-            viewport: {
-              selector: '#step2'
-            }
-          })
+          // $(this).popover({
+          //   trigger: 'hover',
+          //   placement: 'auto right',
+          //   viewport: {
+          //     selector: '#step2'
+          //   }
+          // })
+
           $(this).on('click', function() {
             
             var that = $(this);
@@ -44,6 +45,7 @@ function fetch_queryset() {
             } else {
               $('.step2-selected[data-queryset-id]').removeClass('step2-selected');
               that.addClass('step2-selected');
+              fetch_retrieveset();
               console.log($(this).attr('data-queryset-id'));
             }
           })
@@ -55,16 +57,25 @@ function fetch_queryset() {
     
   }
 
+  set_queryset('reset');
+  
+
   $('#step2-placeholder').hide();
   $('#step2-loading').show();
   $.get({
     url: '/fetch/queryset'
   }).done(function(data) {
-    console.log(data);
-    $('#step2-loading').hide();
+    
     render_step2(data).then(function() {
+      $('#step2-loading').hide();
       maximize_height($('#step2'), 16);
       attach_step2_click();
     })
   })
 }
+
+$(function() {
+  $('#step2')
+    .attr('data-full-width', $('#step2').width())
+    .attr('data-compressed', $(window).width() / 4);
+})

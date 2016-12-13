@@ -6,4 +6,8 @@ class FetcherController < ApplicationController
   def queryset
     render json: QuerySet.mock_list.to_json
   end
+
+  def retrieveset
+    render json: RetrieveSet.mock_list.to_json
+  end
 end

@@ -72,5 +72,8 @@ $(function() {
   $(window).on('resize', function() {
     maximize_height($('#step1'), $('#step1-next').outerHeight());
     maximize_height($('#step2'), 16);
+    $('#step2')
+      .attr('data-full-width', $('#step2').width())
+      .attr('data-compressed', $(window).width() / 4);
   })
 })

@@ -4,4 +4,5 @@ Rails.application.routes.draw do
   get         '/demo'          , to: 'demo#index'
   get         '/fetch/categories', to: 'fetcher#categories'
   get         '/fetch/queryset', to: 'fetcher#queryset'
+  get         '/fetch/retrieveset', to: 'fetcher#retrieveset'
 end
