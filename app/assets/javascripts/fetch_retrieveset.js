@@ -73,6 +73,7 @@ function fetch_retrieveset(_infinite_scroll) {
             url: that.attr('data-full-res')
           })
         })
+
         resolve();
       }
     );
@@ -101,6 +102,7 @@ function fetch_retrieveset(_infinite_scroll) {
 
   if (!infinite_scroll) {
     set_queryset('set');
+    $('#step3-summary').hide();
     $('#step3').show();
     $('#step3-loading').show();
     $('#step3 [data-retrieveset-id').remove();
@@ -122,7 +124,6 @@ function fetch_retrieveset(_infinite_scroll) {
       previous_position: infinite_scroll ? result_position : 0
     }
   }).done(function(data) {
-    console.log(data);
     render_step3(data.data).then(function() {
       //$('#step3-loading').hide();
       result_count = data.result;
@@ -131,6 +132,10 @@ function fetch_retrieveset(_infinite_scroll) {
       maximize_height($('#step3'), 16);
       //attach_step3_click();
       has_ajax_sent = false;
+
+      $('#step3-summary')
+        .text(data.result + ' images matched in Retrieve Set')
+        .show();
     });
   })
 }

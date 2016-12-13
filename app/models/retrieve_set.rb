@@ -13,7 +13,6 @@ class RetrieveSet < ApplicationRecord
       }
     end
 
-    ap result
     return {
       data: result,
       position: previous_result == 0 ? 0 : previous_position + SEGMENT,

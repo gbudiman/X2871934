@@ -31,6 +31,11 @@ function fetch_queryset() {
             url: that.attr('data-full-res')
           })
         })
+
+        $('#step2-summary')
+          .text(Object.keys(data).length + ' images matched in Query Set')
+          .show();
+
         resolve();
       }
     );
@@ -70,7 +75,7 @@ function fetch_queryset() {
 
   set_queryset('reset');
   
-
+  $('#step2-summary').hide();
   $('#step2-placeholder').hide();
   $('#step2-loading').show();
   $('#step2-selected').removeClass('step2-selected');
