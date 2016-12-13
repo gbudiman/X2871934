@@ -8,6 +8,7 @@ function fetch_queryset() {
                     .addClass('col-xs-12 col-sm-6 col-md-4 col-lg-2')
                     .addClass('img-padded')
                     .attr('data-queryset-id', name)
+                    .attr('data-content', 'blabla')
                     .append($('<img></img>')
                               .attr('alt', name)
                               .attr('src', 'photo_placeholder.jpg')
@@ -27,6 +28,13 @@ function fetch_queryset() {
     return new Promise(
       function(resolve, reject) {
         $('[data-queryset-id]').each(function() {
+          $(this).popover({
+            trigger: 'hover',
+            placement: 'auto right',
+            viewport: {
+              selector: '#step2'
+            }
+          })
           $(this).on('click', function() {
             
             var that = $(this);
