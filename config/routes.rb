@@ -3,4 +3,5 @@ Rails.application.routes.draw do
   root                           to: 'demo#index'
   get         '/demo'          , to: 'demo#index'
   get         '/fetch/categories', to: 'fetcher#categories'
+  get         '/fetch/queryset', to: 'fetcher#queryset'
 end

@@ -3,7 +3,6 @@ module ApplicationHelper
     page_request = request.env['PATH_INFO']
     haml_tag :li do
       if (link == page_request)
-        puts 'here'
         haml_tag :a, class: 'link-is-current-page' do
           haml_concat title
         end

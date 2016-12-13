@@ -12,8 +12,4 @@ class ApplicationController < ActionController::Base
     subpages.unshift(APP_BASE_TITLE)
     return subpages.join(' :: ')
   end
-
-  def fetch_category
-    render json: Category.mock_list_all.to_json
-  end
 end

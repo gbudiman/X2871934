@@ -38,18 +38,39 @@ $(function() {
     )
   }
 
+  var attach_step1_click = function() {
+    $('#step1-next').on('click', function() {
+      $(this)
+        .text('Make Selection First')
+        .prop('disabled', true);
+
+      fetch_queryset();
+    }).prop('disabled', true);
+  }
+
+  var attach_step1_selectors = function() {
+    $('[data-global="step1"]').on('change', function() {
+      $('#step1-next')
+        .text('Next Step')
+        .prop('disabled', false);
+    })
+  }
+
+  
   $.get({
     url: '/fetch/categories'
   }).done(function(data) {
     render_step1(data).then(function() {
       $('#step1-loading').hide();
       $('#step1-next').show();
-      console.log($('#step1-next').outerHeight());
       maximize_height($('#step1'), $('#step1-next').outerHeight());
+      attach_step1_selectors();
+      attach_step1_click();
     });
   })
 
   $(window).on('resize', function() {
     maximize_height($('#step1'), $('#step1-next').outerHeight());
+    maximize_height($('#step2'), 16);
   })
 })

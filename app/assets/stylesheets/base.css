@@ -32,3 +32,14 @@ ul.list-height-limited {
 .init-hidden {
   display: none;
 }
+
+.jumbotron.non-container {
+  border-radius: 1em;
+}
+
+.img-padded {
+  padding-top: 4px;
+  padding-bottom: 4px;
+  width: 128px;
+  height: 128px;
+}
