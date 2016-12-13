@@ -7,32 +7,31 @@ var has_ajax_sent;
 function set_queryset(state) {
   if (state == retrieveset_state) { return; }
 
+  var scroll_to_selected = function() {
+    if ($('.step2-selected').offset() == undefined) { return; }
+    var offset = $('.step2-selected').offset().top;
+
+    $('#step2').animate({
+      scrollTop: $('#step2').scrollTop() + offset - 72
+    }, 400, window_resize_handler)
+  }
+
   switch(state) {
     case 'set':
       retrieveset_state = 'set';
+      step2_state('compressed');
       $('#step2')
         .animate({
           width: $('#step2').attr('data-compressed')
-        }, 400, function() {
-          var offset = $('.step2-selected').offset().top;
-          $('#step2').animate({
-            scrollTop: $('#step2').scrollTop() + offset - 72
-          })
-        })
+        }, 400, scroll_to_selected);
       break;
     case 'reset':
       retrieveset_state = 'reset';
-      console.log($('.step2-selected').offset());
+      step2_state('full_width');
       $('#step2')
         .animate({
           width: $('#step2').attr('data-full-width')
-        }, 400, function() {
-          if ($('.step2-selected').offset() == undefined) { return; }
-          var offset = $('.step2-selected').offset().top;
-          $('#step2').animate({
-            scrollTop: $('#step2').scrollTop() + offset - 72
-          })
-        })
+        }, 400, scroll_to_selected);
       $('#step3').hide();
       break;
   }

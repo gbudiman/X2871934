@@ -23,6 +23,34 @@ function attach_infinite_scroll(obj, anchor, end_marker) {
   })
 }
 
+function window_resize_handler() {
+  maximize_height($('#step1'), $('#step1-next').outerHeight());
+  maximize_height($('#step2'), 16);
+  maximize_height($('#step3'), 16);
+
+  var step2_full_width = $(window).width() - $('#step1').outerWidth() - 32;
+  var step2_compressed = $(window).width() / 4;
+  $('#step2')
+    .attr('data-full-width', step2_full_width)
+    .attr('data-compressed', step2_compressed);
+
+  switch(step2_state()) {
+    case 'full-width': 
+      $('#step2').css('width', step2_full_width); 
+      break;
+    case 'compressed': 
+      $('#step2').css('width', step2_compressed); 
+      $('#step3').css('width', $(window).width() - step2_compressed);
+      break;
+  }
+  
+  $('#step3')
+    .css('width', $(window).width() 
+                - $('#step1').outerWidth() 
+                - $('#step2').outerWidth() 
+                - 32);
+}
+
 
 $(function() {
   attach_infinite_scroll($('#step3'), $('#step3-loading'), $('#step3-end'));

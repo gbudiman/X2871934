@@ -1,3 +1,11 @@
+function step2_state(state) {
+  if (state == undefined) {
+    return $('#step2').attr('data-state');
+  } else {
+    $('#step2').attr('data-state', state);
+  }
+}
+
 function fetch_queryset() {
   var render_step2 = function(data) {
     return new Promise(
@@ -78,7 +86,5 @@ function fetch_queryset() {
 }
 
 $(function() {
-  $('#step2')
-    .attr('data-full-width', $('#step2').width())
-    .attr('data-compressed', $(window).width() / 4);
+  window_resize_handler();
 })

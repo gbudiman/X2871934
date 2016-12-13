@@ -69,12 +69,5 @@ $(function() {
     });
   })
 
-  $(window).on('resize', function() {
-    maximize_height($('#step1'), $('#step1-next').outerHeight());
-    maximize_height($('#step2'), 16);
-    maximize_height($('#step3'), 16);
-    $('#step2')
-      .attr('data-full-width', $('#step2').width())
-      .attr('data-compressed', $(window).width() / 4);
-  })
+  $(window).on('resize', window_resize_handler)
 })
