@@ -7,9 +7,10 @@ class RetrieveSet < ApplicationRecord
 
     segment_count = previous_position + SEGMENT < random ? SEGMENT : random - previous_position
 
-
     segment_count.times do |i|
-      result[previous_position + i] = Hash.new
+      result[previous_position + i] = {
+        relevance: 99.3 - (previous_position + i) * 0.137
+      }
     end
 
     ap result

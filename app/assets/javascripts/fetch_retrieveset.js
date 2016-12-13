@@ -49,12 +49,15 @@ function fetch_retrieveset(_infinite_scroll) {
         $.each(data, function(name, x) {
           var s = $('<div></div>')
                     .addClass('col-xs-12 col-sm-6 col-md-4 col-lg-2')
-                    .addClass('img-padded')
+                    .addClass('img-retrieve')
                     .attr('data-retrieveset-id', name)
                     .attr('data-full-res', 'photo_placeholder.jpg')
                     .append($('<div></div>')
                               .addClass('img-thumb')
                               .css('background-image', 'url("/photo_placeholder.jpg"'))
+                    .append($('<div></div>').css('clear', 'both'))
+                    .append($('<span></span>')
+                              .append((Math.round(x.relevance * 100) / 100) + '%'))
 
           $('#step3').append(s);
         })

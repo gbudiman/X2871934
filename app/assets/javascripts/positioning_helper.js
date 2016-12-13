@@ -11,8 +11,6 @@ function attach_infinite_scroll(obj, anchor, end_marker) {
     var object_height = obj.height();
 
     if (object_height - anchor_position > 8) {
-      console.log('end triggered');
-
       if (result_position + result_segment < result_count) {
         fetch_retrieveset(infinite_scroll);
       } else {
