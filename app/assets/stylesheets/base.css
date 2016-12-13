@@ -21,6 +21,14 @@ ul.list-height-limited {
   overflow-y: auto;
 }
 
+.div-height-limited {
+  overflow-y: auto;
+}
+
 .fetching {
   text-align: center;
+}
+
+.init-hidden {
+  display: none;
 }

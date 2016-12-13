@@ -33,9 +33,6 @@ $(function() {
         })
 
         $('#step1').prepend(s);
-        $('#step1-loading').hide();
-        $('#step1-next').show();
-
         resolve();
       }
     )
@@ -44,6 +41,15 @@ $(function() {
   $.get({
     url: '/fetch/categories'
   }).done(function(data) {
-    render_step1(data);
+    render_step1(data).then(function() {
+      $('#step1-loading').hide();
+      $('#step1-next').show();
+      console.log($('#step1-next').outerHeight());
+      maximize_height($('#step1'), $('#step1-next').outerHeight());
+    });
+  })
+
+  $(window).on('resize', function() {
+    maximize_height($('#step1'), $('#step1-next').outerHeight());
   })
 })
