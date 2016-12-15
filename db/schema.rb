@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161215022245) do
+ActiveRecord::Schema.define(version: 20161215035718) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 20161215022245) do
     t.integer  "category",     null: false
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
+    t.index ["link"], name: "unique_link", unique: true, using: :btree
   end
 
   create_table "precomputeds", id: :bigserial, force: :cascade do |t|
@@ -38,6 +39,7 @@ ActiveRecord::Schema.define(version: 20161215022245) do
     t.string   "value",      null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["image_id", "category", "value"], name: "unique_image_category_value", unique: true, using: :btree
     t.index ["image_id"], name: "index_tags_on_image_id", using: :btree
   end
 

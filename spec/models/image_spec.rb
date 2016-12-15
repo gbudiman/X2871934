@@ -46,4 +46,21 @@ RSpec.describe Image, type: :model do
       @image.category = nil
     end
   end
+
+  context 'duplication' do
+    it 'should disallow duplicate link' do
+      @image.save
+      image_dup = @image.dup
+
+      expect { image_dup.save }.to raise_error(ActiveRecord::StatementInvalid) 
+    end
+
+    it 'should allow duplicate but with different link' do
+      @image.save
+      image_dup = @image.dup
+      image_dup.link = 'different'
+
+      expect { image_dup.save }.to change{Image.count}.by 1
+    end
+  end
 end
