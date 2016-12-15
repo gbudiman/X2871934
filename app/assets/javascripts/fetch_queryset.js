@@ -7,20 +7,25 @@ function step2_state(state) {
 }
 
 function fetch_queryset() {
-  var render_step2 = function(data) {
+  var render_step2 = function(_data) {
     return new Promise(
       function(resolve, reject) {
+        data = _data.images;
+        var wrap = function(x) {
+          return _data.base_path + x;
+        }
 
-        $.each(data, function(name, x) {
+        $.each(data, function(_junk, x) {
+          var path = wrap(x.link)
           var s = $('<div></div>')
                     .addClass('col-xs-12 col-sm-6 col-md-4 col-lg-2')
                     .addClass('img-padded')
-                    .attr('data-queryset-id', name)
+                    .attr('data-queryset-id', x.id)
                     .attr('data-content', 'blabla')
-                    .attr('data-full-res', 'photo_placeholder.jpg')
+                    .attr('data-full-res', path)
                     .append($('<div></div>')
                               .addClass('img-thumb')
-                              .css('background-image', 'url("/photo_placeholder.jpg")'));
+                              .css('background-image', 'url("' + path + '")'));
 
           $('#step2').append(s);
         })
@@ -73,6 +78,17 @@ function fetch_queryset() {
     
   }
 
+  var get_step1_checked = function() {
+    var data_builder = new Array();
+
+    $('[data-global="step1"]:checked').each(function() {
+      var that = $(this);
+      data_builder.push([ that.attr('data-category'), that.attr('data-value') ])
+    })
+
+    return data_builder;
+  }
+
   set_queryset('reset');
   
   $('#step2-summary').hide();
@@ -83,7 +99,10 @@ function fetch_queryset() {
   $('#step3 [data-retrieveset-id]').remove();
 
   $.get({
-    url: '/fetch/queryset'
+    url: '/fetch/queryset',
+    data: {
+      data: JSON.stringify(get_step1_checked())
+    }
   }).done(function(data) {
     
     render_step2(data).then(function() {

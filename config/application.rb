@@ -11,5 +11,7 @@ module X2871934
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
+
+    Rails.configuration.s3_base_path = 'https://s3-us-west-1.amazonaws.com/x2871934/'
   end
 end

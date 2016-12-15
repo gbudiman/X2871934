@@ -5,7 +5,9 @@ class FetcherController < ApplicationController
   end
 
   def queryset
-    render json: QuerySet.mock_list.to_json
+    #ap JSON.parse(params[:data])
+    render json: QuerySet.generate_from(queries: JSON.parse(params[:data])).to_json
+    #render json: QuerySet.mock_list.to_json
   end
 
   def retrieveset
