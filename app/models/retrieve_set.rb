@@ -20,4 +20,29 @@ class RetrieveSet < ApplicationRecord
       segment: SEGMENT
     }
   end
+
+  def self.generate_from query:
+    precomputeds = Precomputed.where(query_id: query)
+
+    images = Hash.new
+    precs = Hash.new
+
+    Image.where(id: precomputeds.pluck(:retrieve_id)).select(:id, :link, :name).each do |img|
+      images[img[:id]] = {
+        link: img[:link],
+        name: img[:name]
+      }
+    end
+
+    precomputeds.select(:retrieve_id, :relevance).each do |ps|
+      precs[ps[:retrieve_id]] = {
+        relevance: ps[:relevance]
+      }.merge(images[ps[:retrieve_id]])
+    end
+
+    return {
+      base_path: Rails.configuration.s3_base_path,
+      images: precs
+    }
+  end
 end

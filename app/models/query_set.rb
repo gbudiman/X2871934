@@ -26,7 +26,6 @@ class QuerySet < ApplicationRecord
       ids = t.pluck(:image_id).uniq
 
       images = Image.where(id: ids).select(:id, :link, :name)
-      ap images
     end
 
     return {

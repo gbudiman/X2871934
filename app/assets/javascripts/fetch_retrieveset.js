@@ -43,23 +43,39 @@ function fetch_retrieveset(_infinite_scroll) {
     infinite_scroll = false;
   }
 
-  var render_step3 = function(data) {
+  var render_step3 = function(_data) {
     return new Promise(
       function (resolve, reject) {
-        $.each(data, function(name, x) {
+        data = _data.images
+        var wrap = function(x) {
+          return _data.base_path + x;
+        }
+        var m_round = function(_x) {
+          x = parseFloat(_x);
+          if (x < 0.001) {
+            return '~ 0%'
+          } else {
+            return (Math.round(x * 100) / 100) + '%'
+          }
+        }
+
+        var match_count = 0;
+        $.each(data, function(id, x) {
+          var path = wrap(x.link);
           var s = $('<div></div>')
                     .addClass('col-xs-12 col-sm-6 col-md-4 col-lg-2')
                     .addClass('img-retrieve')
-                    .attr('data-retrieveset-id', name)
-                    .attr('data-full-res', 'photo_placeholder.jpg')
+                    .attr('data-retrieveset-id', id)
+                    .attr('data-full-res', path)
                     .append($('<div></div>')
                               .addClass('img-thumb')
-                              .css('background-image', 'url("/photo_placeholder.jpg"'))
+                              .css('background-image', 'url("' + path + '")'))
                     .append($('<div></div>').css('clear', 'both'))
                     .append($('<span></span>')
-                              .append((Math.round(x.relevance * 100) / 100) + '%'))
+                              .append(m_round(x.relevance)))
 
           $('#step3').append(s);
+          match_count++;
         })
 
         // Move markers, both loading and end, to be the last child
@@ -67,14 +83,14 @@ function fetch_retrieveset(_infinite_scroll) {
           .append($('#step3-loading'))
           .append($('#step3-end'));
 
-        $('[data-retrieveset-id').each(function() {
+        $('[data-retrieveset-id]').each(function() {
           var that = $(this);
-          $(this).zoom({
+          that.zoom({
             url: that.attr('data-full-res')
           })
         })
 
-        resolve();
+        resolve(match_count);
       }
     );
   }
@@ -119,12 +135,15 @@ function fetch_retrieveset(_infinite_scroll) {
 
   $.get({
     url: '/fetch/retrieveset',
+    // data: {
+    //   previous_result: infinite_scroll ? result_count : 0,
+    //   previous_position: infinite_scroll ? result_position : 0
+    // }
     data: {
-      previous_result: infinite_scroll ? result_count : 0,
-      previous_position: infinite_scroll ? result_position : 0
+      queryset_id: $('.step2-selected').attr('data-queryset-id')
     }
   }).done(function(data) {
-    render_step3(data.data).then(function() {
+    render_step3(data).then(function(match_count) {
       //$('#step3-loading').hide();
       result_count = data.result;
       result_position = data.position;
@@ -134,7 +153,7 @@ function fetch_retrieveset(_infinite_scroll) {
       has_ajax_sent = false;
 
       $('#step3-summary')
-        .text(data.result + ' images matched in Retrieve Set')
+        .text(match_count + ' images matched in Retrieve Set')
         .show();
     });
   })

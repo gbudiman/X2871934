@@ -11,9 +11,11 @@ class FetcherController < ApplicationController
   end
 
   def retrieveset
-    previous_result = params.has_key?(:previous_result) ? params[:previous_result].to_i : 0
-    previous_position = params.has_key?(:previous_position) ? params[:previous_position].to_i : 0
-    render json: RetrieveSet.mock_list(previous_result: previous_result,
-                                       previous_position: previous_position).to_json
+    # previous_result = params.has_key?(:previous_result) ? params[:previous_result].to_i : 0
+    # previous_position = params.has_key?(:previous_position) ? params[:previous_position].to_i : 0
+    # render json: RetrieveSet.mock_list(previous_result: previous_result,
+    #                                    previous_position: previous_position).to_json
+
+    render json: RetrieveSet.generate_from(query: params[:queryset_id].to_i).to_json
   end
 end
