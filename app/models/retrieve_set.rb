@@ -77,7 +77,6 @@ class RetrieveSet < ApplicationRecord
       cache.write(query, precs, expires_in: 1.hour);
     end
 
-    ap serializable_cache
     return serializable_cache
   end
 end
