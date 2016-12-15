@@ -8,12 +8,13 @@ $(function() {
         $.each(data, function(category_name, x) {
           var list_header = $('<span></span>')
                               .addClass('list-header')
-                              .append(category_name.toUpperCase());
+                              .append(category_name.translate_category());
 
           var list = $('<ul></ul>')
                        .addClass('list-unstyled list-height-limited');
 
-          $.each(x, function(j, y) {
+
+          $.each(Object.keys(x).sort(), function(i, value_name) {
             var entry = $('<div></div>')
                           .addClass('checkbox')
                           .append($('<label></label>')
@@ -21,8 +22,8 @@ $(function() {
                                               .attr('type', 'checkbox')
                                               .attr('data-global', 'step1')
                                               .attr('data-category', category_name)
-                                              .attr('data-value', y))
-                                    .append(y)
+                                              .attr('data-value', value_name))
+                                    .append(value_name.capitalize_first_letter())
                                  );
 
             list.append(entry);

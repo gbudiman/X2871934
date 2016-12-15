@@ -5,4 +5,6 @@ Rails.application.routes.draw do
   get         '/fetch/categories', to: 'fetcher#categories'
   get         '/fetch/queryset', to: 'fetcher#queryset'
   get         '/fetch/retrieveset', to: 'fetcher#retrieveset'
+
+  get         '/tags/summary'  , to: 'tag#summary'
 end

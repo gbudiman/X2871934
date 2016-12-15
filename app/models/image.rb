@@ -48,7 +48,7 @@ class Image < ApplicationRecord
                    category: 'style',
                    value: splits[3].downcase
 
-        (4...6).each do |i|
+        (4..6).each do |i|
           if splits[i] != 'none' 
             Tag.create image_id: image.id,
                        category: clothing_categories[i],

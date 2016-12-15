@@ -1,6 +1,7 @@
 class FetcherController < ApplicationController
   def categories
-    render json: Category.mock_list_all.to_json
+    #render json: Category.mock_list_all.to_json
+    render json: Tag.summarize.to_json
   end
 
   def queryset
