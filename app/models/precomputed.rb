@@ -17,4 +17,17 @@ class Precomputed < ApplicationRecord
       raise ActiveRecord::StatementInvalid, 'Circular reference: query_id == retrieve_id'
     end
   end
+
+  def self.slurp path:
+    File.read(path).split(/(\r|\r\n|\n)/).each do |line|
+      splits = line.split(/\s+/)
+      next unless splits[0] =~ /\A\d+/
+
+      3.times do |j|
+        Precomputed.create query_id: splits[0].to_i,
+                           retrieve_id: splits[j * 2 + 1].to_i,
+                           relevance: splits[j * 2 + 2].to_i
+      end
+    end
+  end
 end

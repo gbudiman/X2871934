@@ -30,7 +30,7 @@ class Image < ApplicationRecord
       splits = line.split(/\s+/)
       next unless splits[0] =~ /\A\d+/
 
-      image = Image.create id: splits[0],       
+      image = Image.create id: splits[0].to_i,       
                            link: splits[1],     
                            name: splits[1],    
                            category: category
