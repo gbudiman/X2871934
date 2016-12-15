@@ -15,7 +15,7 @@ ActiveRecord::Schema.define(version: 20161215022245) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "images", id: :bigint, force: :cascade do |t|
+  create_table "images", id: :bigserial, force: :cascade do |t|
     t.string   "link",         null: false
     t.string   "name",         null: false
     t.float    "cnn_features",              array: true
@@ -24,7 +24,7 @@ ActiveRecord::Schema.define(version: 20161215022245) do
     t.datetime "updated_at",   null: false
   end
 
-  create_table "precomputeds", id: :bigint, force: :cascade do |t|
+  create_table "precomputeds", id: :bigserial, force: :cascade do |t|
     t.bigint   "query_id",    null: false
     t.bigint   "retrieve_id", null: false
     t.float    "relevance",   null: false
@@ -32,7 +32,7 @@ ActiveRecord::Schema.define(version: 20161215022245) do
     t.datetime "updated_at",  null: false
   end
 
-  create_table "tags", id: :bigint, force: :cascade do |t|
+  create_table "tags", id: :bigserial, force: :cascade do |t|
     t.bigint   "image_id"
     t.string   "category",   null: false
     t.string   "value",      null: false

@@ -1,7 +1,7 @@
 class CreatePrecomputeds < ActiveRecord::Migration[5.0]
   def change
     create_table :precomputeds, id: false do |t|
-      t.integer                :id, limit: 8, primary_key: true
+      t.bigserial              :id, primary_key: true
       
       t.integer                :query_id, limit: 8, null: false
       t.integer                :retrieve_id, limit: 8, null: false
