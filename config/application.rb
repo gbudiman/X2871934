@@ -13,5 +13,6 @@ module X2871934
     # -- all .rb files in that directory are automatically loaded.
 
     Rails.configuration.s3_base_path = 'https://s3-us-west-1.amazonaws.com/x2871934/'
+    Rails.configuration.cache = ActiveSupport::Cache::MemoryStore.new
   end
 end

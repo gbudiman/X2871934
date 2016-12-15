@@ -21,28 +21,63 @@ class RetrieveSet < ApplicationRecord
     }
   end
 
-  def self.generate_from query:
-    precomputeds = Precomputed.where(query_id: query)
+  def self.generate_from query:, previous_position:, segment:
+    cache = Rails.configuration.cache
+    cached = cache.fetch query
+    rsegment = segment == 0 ? SEGMENT : segment
+    serializable_cache = nil
 
-    images = Hash.new
-    precs = Hash.new
-
-    Image.where(id: precomputeds.pluck(:retrieve_id)).select(:id, :link, :name).each do |img|
-      images[img[:id]] = {
-        link: img[:link],
-        name: img[:name]
+    if cached
+      ap 'From cache'
+      serializable_cache = {
+        base_path: Rails.configuration.s3_base_path,
+        images: cached[previous_position, previous_position + rsegment],
+        segment: rsegment,
+        position: previous_position + segment,
+        result_count: cached.length
       }
+    else
+      ap 'fresh'
+      precomputeds = Precomputed.where(query_id: query)
+
+      images = Hash.new
+      precs = Array.new
+
+      Image.where(id: precomputeds.pluck(:retrieve_id)).select(:id, :link, :name).each do |img|
+        images[img[:id]] = {
+          link: img[:link],
+          name: img[:name]
+        }
+      end
+
+      precomputeds.select(:retrieve_id, :relevance).each do |ps|
+        precs.push({
+          id: ps[:retrieve_id],
+          relevance: ps[:relevance]
+        }.merge(images[ps[:retrieve_id]]))
+      end
+
+      precs_length = precs.length
+
+      # Enable this block to simulate large data volume
+      # 20.times do 
+      #   (0..precs_length).each do |i|
+      #     precs.push precs[i]
+      #   end
+      # end
+
+      serializable_cache = {
+        base_path: Rails.configuration.s3_base_path,
+        images: precs[previous_position, previous_position + rsegment],
+        segment: rsegment,
+        position: previous_position + segment,
+        result_count: precs.length
+      }
+
+      cache.write(query, precs, expires_in: 1.hour);
     end
 
-    precomputeds.select(:retrieve_id, :relevance).each do |ps|
-      precs[ps[:retrieve_id]] = {
-        relevance: ps[:relevance]
-      }.merge(images[ps[:retrieve_id]])
-    end
-
-    return {
-      base_path: Rails.configuration.s3_base_path,
-      images: precs
-    }
+    ap serializable_cache
+    return serializable_cache
   end
 end

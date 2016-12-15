@@ -59,7 +59,6 @@ function fetch_retrieveset(_infinite_scroll) {
           }
         }
 
-        var match_count = 0;
         $.each(data, function(id, x) {
           var path = wrap(x.link);
           var s = $('<div></div>')
@@ -75,7 +74,6 @@ function fetch_retrieveset(_infinite_scroll) {
                               .append(m_round(x.relevance)))
 
           $('#step3').append(s);
-          match_count++;
         })
 
         // Move markers, both loading and end, to be the last child
@@ -90,7 +88,7 @@ function fetch_retrieveset(_infinite_scroll) {
           })
         })
 
-        resolve(match_count);
+        resolve();
       }
     );
   }
@@ -122,6 +120,10 @@ function fetch_retrieveset(_infinite_scroll) {
     $('#step3').show();
     $('#step3-loading').show();
     $('#step3 [data-retrieveset-id').remove();
+
+    result_count = 0;
+    result_position = 0;
+    result_segment = 0;
   } else {
     //has_ajax_sent = true;
     if (has_ajax_sent) { 
@@ -140,20 +142,28 @@ function fetch_retrieveset(_infinite_scroll) {
     //   previous_position: infinite_scroll ? result_position : 0
     // }
     data: {
-      queryset_id: $('.step2-selected').attr('data-queryset-id')
+      queryset_id: $('.step2-selected').attr('data-queryset-id'),
+      previous_position: result_position,
+      segment: result_segment
     }
   }).done(function(data) {
     render_step3(data).then(function(match_count) {
       //$('#step3-loading').hide();
-      result_count = data.result;
-      result_position = data.position;
-      result_segment = data.segment;
+      result_count = parseInt(data.result_count);
+      result_position = parseInt(data.position) + parseInt(data.segment);
+      result_segment = parseInt(data.segment);
+
+      if (result_count < result_position) {
+        $('#step3-loading').hide();
+        $('#step3-end').show();
+      }
+
       maximize_height($('#step3'), 16);
       //attach_step3_click();
       has_ajax_sent = false;
 
       $('#step3-summary')
-        .text(match_count + ' images matched in Retrieve Set')
+        .text(result_count + ' images matched in Retrieve Set')
         .show();
     });
   })
