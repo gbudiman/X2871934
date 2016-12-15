@@ -1,0 +1,2 @@
+class Precomputed < ApplicationRecord
+end
