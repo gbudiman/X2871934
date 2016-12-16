@@ -13,17 +13,37 @@ class QuerySet < ApplicationRecord
   def self.generate_from queries:
     images = nil
     ActiveRecord::Base.transaction do
-      t = nil
-
+      q = Hash.new
       queries.each do |query|
-        if t == nil
-          t = Tag.where(category: query[0], value: query[1])
-        else
-          t = t.or(Tag.where(category: query[0], value: query[1]))
-        end
+        q[query[0]] ||= Array.new
+        q[query[0]].push query[1]
       end
 
-      ids = t.pluck(:image_id).uniq
+      # ap q
+      # queries.each do |query|
+      #   if t == nil
+      #     t = Tag.where(category: query[0], value: query[1])
+      #   else
+      #     t = t.where(category: query[0], value: query[1])
+      #   end
+      # end
+
+
+      ids = Array.new
+      q.each_with_index do |(category, values), order|
+        fetches = Tag.where(category: category, value: values).pluck(:image_id)
+
+        # ap fetches
+        # ap ' -> '
+        if order == 0
+          ids = ids | fetches
+        else
+          ids = ids & fetches
+        end
+        # ap ids
+      end
+
+      #ids = t.pluck(:image_id).uniq
 
       images = Image.where(id: ids).select(:id, :link, :name)
     end
